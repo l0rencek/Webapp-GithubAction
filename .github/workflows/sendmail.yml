@@ -1,0 +1,28 @@
+name: Send mail
+on: push
+
+jobs:
+  sendmail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hello world
+        run: echo "Hello world!"
+
+      - name: Send mail
+        if: ${{ always() }}
+        uses: dawidd6/action-send-mail@v6
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: Job in ${{ github.repository }} has ${{ job.status }}
+          body: |
+            Job in workflow "${{ github.workflow }}" of repository "${{ github.repository }}" has status "${{ job.status }}".
+          to: larrytestautomation@gmail.com
+          from: Larry Test Automation <larry@example.com>
+
+
+
+
+
